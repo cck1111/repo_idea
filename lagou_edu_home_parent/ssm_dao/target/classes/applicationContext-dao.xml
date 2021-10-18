@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--spring整合mybatis-->
+
+    <!--引入jdbc.properties-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!--1.配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--2.配置SqlSessionFactory-->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="com.lagou.domain"/>
+        <!--配置分页助手-->
+        <property name="plugins">
+            <bean class="com.github.pagehelper.PageHelper">
+                <property name="properties">
+                    <value>helperDialect=mysql</value>
+                </property>
+            </bean>
+        </property>
+
+        <!--引入mybatis核心配置文件(sqlMapConfig)，加载其中的一些独特的设置功能-->
+        <property name="configLocation" value="classpath:sqlMapConfig.xml"/>
+    </bean>
+
+    <!--3.配置mapper映射  扫描改包下的接口生成代理对象存到IOC容器中-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lagou.dao"/>
+    </bean>
+
+</beans>
