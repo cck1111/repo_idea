@@ -46,5 +46,7 @@ public interface UserMapper {
 
     //4.根据角色ID，查询角色的资源权限的信息
     public List<Resource> findResourceByRoleId(List<Integer> ids);
+    
+    public List<Resource> findResourceByRoleId2(List<Integer> ids);
 }
 
