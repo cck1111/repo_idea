@@ -1,0 +1,6 @@
+com\lagou\service\ResourceCgService.class
+com\lagou\service\impl\RoleServiceImpl.class
+com\lagou\service\impl\TestServiceImpl.class
+com\lagou\service\RoleService.class
+com\lagou\service\impl\ResourceCgServiceImpl.class
+com\lagou\service\TestService.class
